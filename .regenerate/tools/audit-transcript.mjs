@@ -18,7 +18,12 @@ const toWin = (p) => p.replace(/^\/([a-zA-Z])\//, (_, d) => `${d.toUpperCase()}:
 const WORK = normalize(resolve(toWin(workDirArg)));
 const brief = readFileSync(briefPath, 'utf8');
 const ticks = (line) => [...(line ?? '').matchAll(/`([^`]+)`/g)].map((m) => m[1]);
-const identifiers = ticks(brief.split('\n').find((l) => l.includes('Identifiers (always fail)')));
+// The brief's identifier list can wrap across lines, so also take the full list the leak check uses.
+const briefLines = brief.split('\n');
+const idAt = briefLines.findIndex((l) => l.includes('Identifiers (always fail)'));
+let leakTerms = [];
+try { leakTerms = JSON.parse(readFileSync(new URL('./leak-terms.json', import.meta.url), 'utf8')).identifiers; } catch {}
+const identifiers = [...new Set([...ticks(idAt < 0 ? '' : briefLines.slice(idAt, idAt + 3).join(' ').split('**Distinctive')[0]), ...leakTerms])];
 const allowedDomains = ticks(brief.split('\n').find((l) => l.includes('Allowed domains in builder code')));
 
 const lines = readFileSync(transcriptPath, 'utf8').split('\n').filter((l) => l.trim()).map((l, i) => {
@@ -139,6 +144,7 @@ const report = {
   network_violations: netViolations,
   denied_calls: denied,
   denied_detail: (result?.permission_denials ?? []).map((d) => ({ tool: d.tool_name, input: JSON.stringify(d.tool_input).slice(0, 200) })),
+  identifiers_checked: identifiers,
   piped_commands: pipedCommands,
   recognition_before_spec: [...new Set(recognition)],
   recognized_reference: recognition.length > 0,
