@@ -3,8 +3,8 @@
 - Project: heat-engine (brief: kit/briefs/heat-engine.md)
 - Phase: 3 (blind rebuild, primary language ts)
 - Spec tag: spec-v1.0.2
-- Last completed runs: r00/r00.1 (reference) 294/336; r01 ts 362/362 not clean (C-1 clarify)
-- Blind runs used: 2 of 6
-- Running: r02 - ts, sonnet, spec-v1.0.1, sandbox mqtwev, started 2026-10-07T19:21:02Z,
-  meta <SANDBOX_ROOT>/mqtwev/meta (isolation: nested -p via launch-blind.sh)
-- Next step: Phase 4 for r02; if clean, r03 = py on spec-v1.0.1.
+- Last completed runs: r01, r02 (ts, 362/362 each, not clean: one clarify each); r00.2 reference 294/336
+- Blind runs used: 3 of 6 (r03 in progress)
+- Running: r03 - ts, sonnet, spec-v1.0.2, sandbox kszkdo, started 2026-10-07T19:26:18Z,
+  meta <SANDBOX_ROOT>/kszkdo/meta (isolation: nested -p via launch-blind.sh)
+- Next step: Phase 4 for r03; if clean, r04 = py on spec-v1.0.2.

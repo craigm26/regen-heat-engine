@@ -11,6 +11,7 @@ How every version of this program was made. Machine-readable record: `ledger.jso
 | r00.1 | reference | spec-v1.0.1 | — | earlier TS implementation | finished | 294/336 (n/a 26) | — | — | same 42 explained failures |
 | r02 | blind | spec-v1.0.1 | claude-sonnet-5-5 | ts | finished | 362/362 | 14/14 | no | C-1 clarify: REQ-IF-007 check order contradicted itself; 16 turns, 2.8 min, $0.49 |
 | r00.2 | reference | spec-v1.0.2 | — | earlier TS implementation | finished | 294/336 (n/a 28) | — | — | same 42 explained failures |
+| r03 | blind | spec-v1.0.2 | claude-sonnet-5-5 | ts | finished | 364/364 | 12/12 | **yes** | first clean run; 18 turns, 3.1 min, $0.44 |
 
 ## r00: the suite against the earlier implementation
 
@@ -53,3 +54,6 @@ Suite bugs found while building r00 (class (a), fixed before the run was recorde
   real finding was again in the prose: a sentence about error-check order that contradicted
   itself. Rescored against spec-v1.0.2's suite (two new error cases), r01 and r02 both pass
   364/364.
+- **r03.** The first clean TypeScript run: every recorded choice was already open or already
+  pinned. Across three TypeScript builds, the open replay edge cases got different answers each
+  time and the suite never noticed, as intended.

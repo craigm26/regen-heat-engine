@@ -90,7 +90,20 @@ for (const l of lines) {
       // Heredoc bodies are written code, not paths the builder used: check them only for
       // code-host addresses, and judge the rest of the command as usual.
       const bodies = [];
-      const cmd = full.replace(/<<-?\s*(['"]?)(\w+)\1([^\n]*)\n([\s\S]*?)\n\2(?=\n|$)/g, (_, q, tag, rest, body) => { bodies.push(body); return `<<${tag}${rest}`; });
+      let cmd = full.replace(/<<-?\s*(['"]?)(\w+)\1([^\n]*)\n([\s\S]*?)\n\2(?=\n|$)/g, (_, q, tag, rest, body) => { bodies.push(body); return `<<${tag}${rest}`; });
+      // Inline scripts (`node -e '...'`, `python -c "..."`) are code too: only their quoted
+      // string literals are path candidates (a script can still open files, so check those).
+      cmd = cmd.replace(/(\s-[ec]\s+)(['"])([\s\S]*?)\2(?=\s|$|;|&|\|)/g, (_, flag, q, code) => {
+        bodies.push(code);
+        for (const lit of code.matchAll(/(["'`])((?:\\.|(?!\1).)*)\1/g)) {
+          const v = lit[2];
+          if (/[\\/]/.test(v) || v === '..' || /^(~|\$HOME|%USERPROFILE%)/i.test(v)) {
+            const why = /^https?:/i.test(v) ? null : outside(v);
+            if (why) pathViolations.push({ tool: 'Bash inline script', arg: v, command: full.slice(0, 300), why });
+          }
+        }
+        return `${flag}<script>`;
+      });
       for (const body of bodies) for (const h of CODE_HOSTS) if (body.includes(h)) codeHostHits.push({ tool: 'Bash heredoc', host: h });
       for (const t of bashTokens(cmd)) {
         if (/^https?:/i.test(t)) continue;
