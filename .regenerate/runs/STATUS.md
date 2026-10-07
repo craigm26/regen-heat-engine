@@ -3,10 +3,8 @@
 - Project: heat-engine (brief: kit/briefs/heat-engine.md)
 - Phase: 3 (blind rebuild, primary language ts)
 - Spec tag: spec-v1.0.1
-- Last completed run: r00 (reference) 294/336, n/a 26, all failures explained
-- Blind runs used: 1 of 6 (r01 in progress)
-- Running: r01 - ts, sonnet, spec-v1.0.0, sandbox qqcrgg, started 2026-10-07T19:14:13Z,
-  launcher PID in <SANDBOX_ROOT>/qqcrgg/meta/launcher.pid,
-  meta folder <SANDBOX_ROOT>/qqcrgg/meta (isolation: nested -p via launch-blind.sh)
-- Next step: when meta/stderr.log has exit= and transcript ends with a result line, run Phase 4
-  (audit, worktree from spec-v1.0.0, copy, score, triage, scorecard, ledger).
+- Last completed runs: r00/r00.1 (reference) 294/336; r01 ts 362/362 not clean (C-1 clarify)
+- Blind runs used: 2 of 6 (r02 in progress)
+- Running: r02 - ts, sonnet, spec-v1.0.1, sandbox mqtwev, started 2026-10-07T19:21:02Z,
+  meta <SANDBOX_ROOT>/mqtwev/meta (isolation: nested -p via launch-blind.sh)
+- Next step: Phase 4 for r02; if clean, r03 = py on spec-v1.0.1.

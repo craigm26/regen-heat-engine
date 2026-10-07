@@ -1,7 +1,7 @@
 # heat-engine: specification
 
 - Program: `heat-engine`
-- Document version: 1.0.1
+- Document version: 1.0.2
 - Date: 2026-10-07
 - Contract version emitted in audits (`spec_version`): `0.2.0` (see D-003)
 
@@ -105,15 +105,18 @@ same input and are serialized identically (`20`).
 
 **REQ-IF-007.** Errors. If a request line cannot be handled, the response MUST be exactly
 `{"id": <id>, "error": <category>}` with no other members, and the driver MUST continue with
-the next line. Categories:
+the next line. Checks happen in this order; the first that applies decides the response:
 
-| Category | When |
-|---|---|
-| `bad_request` | The line is not a JSON object; `id` is missing or not a string; `input` is missing or not an object; `clock` is missing or not a string when the op needs it; a required input field is missing; an input field has the wrong JSON type (for example a number field holding `true` or `"abc"`, a boolean field holding `1`, a flag field holding a number); `responses` is missing or not an array on `cascade`. |
-| `unknown_op` | `op` is missing, not a string, or not one of the operations in § 1.3. |
+1. The line is not a JSON object, or `id` is missing or not a string ⟶ `bad_request` with
+   `"id": null`.
+2. `op` is missing, not a string, or not one of the operations in § 1.3 ⟶ `unknown_op`.
+3. Any of the following ⟶ `bad_request`: `input` is missing or not an object; `clock` is
+   missing or not a string when the op needs it; a required input field is missing; an input
+   field has the wrong JSON type (for example a number field holding `true` or `"abc"`, a
+   boolean field holding `1`, a flag field holding a number, an optional string field holding
+   `null`); `responses` is missing or not an array on `cascade`. (These all give the same
+   response, so their order among themselves is not observable.)
 
-When the line is not a JSON object, or `id` is missing or not a string, the response `id` is
-`null`. Checks happen in the order the table lists them, `unknown_op` before input checks.
 Error message text is not part of the contract (OPEN-IF-002); only these two members appear.
 
 ### 1.3 Operations
@@ -610,9 +613,10 @@ them.
 - **OPEN-WB-001.** Results when the computation overflows or loses all precision (inputs of
   enormous magnitude); the result and summary for such inputs are unspecified.
 - **OPEN-WB-002.** Results more precise than the stated tolerance.
-- **OPEN-CJ-001.** Canonical text for JSON numbers outside the binary64 range (e.g. `1e400`).
+- **OPEN-CJ-001.** JSON numbers outside the binary64 range (e.g. `1e400`), anywhere in a request: their canonical text in `canonical`, and how operations treat them.
+- **OPEN-FL-001.** `flagC` for a finite `wetBulbC` whose °F conversion overflows to a non-finite value (only reachable near ±1.8e308).
 - **OPEN-CA-001.** Cascade behavior when a field that should be numeric holds a non-numeric,
   non-null value (e.g. a string temperature).
-- **OPEN-CA-002.** Validation of `lat`/`lng`: out-of-range values and non-finite values (`"NaN"`, `"Infinity"`).
+- **OPEN-CA-002.** Validation of `lat`/`lng`: out-of-range values, and the entire response (result and audit, including how REQ-AU-002 would apply) when `lat` or `lng` is non-finite.
 - **OPEN-CA-004.** Malformed replay entries: a `url_pattern` that is not a valid regular expression, a matching entry without a numeric `status`, and a `body_json` member whose value is `null`.
 - **OPEN-CA-003.** The exact request headers or method details beyond "GET this URL".

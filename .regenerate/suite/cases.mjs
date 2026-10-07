@@ -300,6 +300,8 @@ export function buildCases() {
   err('if-err-number-is-text', { id: 'if-err-number-is-text', op: 'flagF', input: { wetBulbF: '80' }, clock: CLOCK }, 'bad_request');
   err('if-err-bool-is-number', { id: 'if-err-bool-is-number', op: 'workRest', input: { flag: 'red', acclimatized: 1, workMinutesRequested: 60 }, clock: CLOCK }, 'bad_request');
   err('if-err-flag-is-number', { id: 'if-err-flag-is-number', op: 'verdict', input: { priorVerdict: null, currentFlag: 3, hasAlternateAvailable: false }, clock: CLOCK }, 'bad_request');
+  err('if-err-verdict-no-prior-verdict', { id: 'if-err-verdict-no-prior-verdict', op: 'verdict', input: { priorFlag: null, currentFlag: 'red', hasAlternateAvailable: false }, clock: CLOCK }, 'bad_request');
+  err('if-err-iso-timestamp-null', { id: 'if-err-iso-timestamp-null', op: 'cascade', input: { lat: 1, lng: 2, isoTimestamp: null }, clock: CLOCK, responses: [] }, 'bad_request');
   err('if-err-cascade-no-responses', { id: 'if-err-cascade-no-responses', op: 'cascade', input: { lat: 1, lng: 2 }, clock: CLOCK }, 'bad_request');
   cases.push({ id: 'if-special-strings-accepted', reqs: ['REQ-IF-006'], batch: 'if', line: req('if-special-strings-accepted', 'flagC', { wetBulbC: '-Infinity' }),
     check: { kind: 'audit', text: O.canon(O.flagC(-Infinity, CLOCK).audit) }, na: NA });

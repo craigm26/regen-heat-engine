@@ -254,3 +254,26 @@ this spec was extracted from. They were required to produce byte-identical audit
 - Why: Test data and well-formed callers never produce them; pinning them would add rules
   without adding safety.
 - Alternatives: Pin each one (longer spec, no consumer).
+
+## D-024: Error checks are a numbered order
+- Source: r02
+- Context: REQ-IF-007 said checks happen "in the order the table lists them" (the table
+  listed `bad_request` first) and, in the same sentence, "`unknown_op` before input checks".
+  The r02 builder chose the intended order and noted the wording was loose (C-1).
+- Decision: REQ-IF-007 now lists three numbered steps: line shape and `id`, then `op`, then
+  everything else. Behavior is unchanged.
+- Why: A builder following the first clause literally would answer `bad_request` where the
+  suite expects `unknown_op`.
+- Alternatives: Keep the table and drop the first clause (still easy to misread).
+
+## D-025: More edge inputs are open
+- Source: r02
+- Context: r02 met three inputs the spec did not cover clearly: non-finite coordinates (it
+  wrote them as `null` in audit inputs, where r01 wrote strings), `1e400` as an operation
+  input, and a finite °C whose °F conversion overflows (C-5, C-6, C-8).
+- Decision: OPEN-CA-002 now covers the whole response for non-finite coordinates;
+  OPEN-CJ-001 covers out-of-range numbers anywhere in a request; new OPEN-FL-001 covers
+  `flagC` overflow.
+- Why: None of these values reaches the program from real callers or real weather data.
+- Alternatives: Pin REQ-AU-002 encoding for coordinates too (r01 and r02 already disagree, and
+  nothing consumes it).
