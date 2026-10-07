@@ -1,7 +1,9 @@
 # STATUS
 
 - Project: heat-engine (brief: kit/briefs/heat-engine.md)
-- Phase: 1 (skeleton committed; reference cloned at f621520 and built in _reference/_build)
-- Last run: none
+- Phase: 3 (blind rebuild, primary language ts)
+- Spec tag: spec-v1.0.0
+- Last run: r00 (reference) 294/336, n/a 26, all failures explained
+- Blind runs used: 0 of 6
 - Running processes: none
-- Next step: Phase 2 - write SPEC.md, DECISIONS.md, SOURCES.md, suite, tools; then r00.
+- Next step: r01 - ts, sonnet, spec-v1.0.0. Sandbox, leak check, launch-blind.sh in background.
