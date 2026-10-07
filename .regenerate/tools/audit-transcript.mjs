@@ -38,7 +38,7 @@ if (!new RegExp(`^claude-${family}-`).test(init.model ?? '')) initProblems.push(
 if (lines[0] !== init) initProblems.push('first line is not the init line');
 
 // ---------- walk tool calls
-const pathViolations = [], netViolations = [], codeHostHits = [];
+const pathViolations = [], netViolations = [], codeHostHits = [], pipedCommands = [];
 const recognition = [];
 let readSpec = false;
 const outside = (p) => {
@@ -58,7 +58,7 @@ const CODE_HOSTS = ['github.com', 'raw.githubusercontent.com', 'registry.npmjs.o
 
 function bashTokens(cmd) {
   // Candidate path tokens: anything with a slash/backslash or starting with ~, ., $HOME, %USERPROFILE%, or a drive letter.
-  return cmd.split(/[\s;&|<>()'"=]+/).filter((t) => t && (/[\\/]/.test(t) || /^(~|\$HOME|%USERPROFILE%|[a-zA-Z]:)/i.test(t) || t === '..'));
+  return cmd.split(/[\s;&|<>()'"=]+/).filter((t) => t && !/^[\\/]+$/.test(t) && (/[\\/]/.test(t) || /^(~|\$HOME|%USERPROFILE%|[a-zA-Z]:[\\/])/i.test(t) || t === '..'));
 }
 
 for (const l of lines) {
@@ -86,7 +86,12 @@ for (const l of lines) {
       }
     }
     if (c.name === 'Bash') {
-      const cmd = String(inp.command ?? '');
+      const full = String(inp.command ?? '');
+      // Heredoc bodies are written code, not paths the builder used: check them only for
+      // code-host addresses, and judge the rest of the command as usual.
+      const bodies = [];
+      const cmd = full.replace(/<<-?\s*(['"]?)(\w+)\1([^\n]*)\n([\s\S]*?)\n\2(?=\n|$)/g, (_, q, tag, rest, body) => { bodies.push(body); return `<<${tag}${rest}`; });
+      for (const body of bodies) for (const h of CODE_HOSTS) if (body.includes(h)) codeHostHits.push({ tool: 'Bash heredoc', host: h });
       for (const t of bashTokens(cmd)) {
         if (/^https?:/i.test(t)) continue;
         if (/^\/dev\/null$/.test(t)) continue;
@@ -94,6 +99,7 @@ for (const l of lines) {
         const why = outside(t.replace(/[,]+$/, ''));
         if (why) pathViolations.push({ tool: 'Bash', arg: t, command: cmd.slice(0, 300), why });
       }
+      if (/\|/.test(cmd)) pipedCommands.push(cmd.slice(0, 200));
       for (const re of NET) if (re.test(cmd)) netViolations.push({ command: cmd.slice(0, 300), rule: String(re) });
       for (const m of cmd.matchAll(/https?:\/\/([^\/\s'"]+)/gi))
         if (!allowedDomains.includes(m[1].toLowerCase())) netViolations.push({ command: cmd.slice(0, 300), rule: `host ${m[1]}` });
@@ -115,6 +121,7 @@ const report = {
   network_violations: netViolations,
   denied_calls: denied,
   denied_detail: (result?.permission_denials ?? []).map((d) => ({ tool: d.tool_name, input: JSON.stringify(d.tool_input).slice(0, 200) })),
+  piped_commands: pipedCommands,
   recognition_before_spec: [...new Set(recognition)],
   recognized_reference: recognition.length > 0,
   violations: pathViolations.length + netViolations.length + (initProblems.length ? 1 : 0),
