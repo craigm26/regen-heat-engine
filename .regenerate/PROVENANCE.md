@@ -7,6 +7,7 @@ How every version of this program was made. Machine-readable record: `ledger.jso
 | Run | Kind | Spec tag | Model | Lang | Outcome | Suite | Own tests | Clean | Notes |
 |---|---|---|---|---|---|---|---|---|---|
 | r00 | reference | spec-v1.0.0 | — | earlier TS implementation via adapter | finished | 294/336 (n/a 26) | — | — | all 42 failures explained (below) |
+| r01 | blind | spec-v1.0.0 | claude-sonnet-5-5 | ts | finished | 362/362 | 22/22 | no | C-1 clarify: a spec example was wrong; 19 turns, 3.4 min, $0.60 |
 
 ## r00: the suite against the earlier implementation
 
@@ -41,3 +42,7 @@ Suite bugs found while building r00 (class (a), fixed before the run was recorde
 - **r00.** The earlier TypeScript code and its own tests agree with each other, but its schema
   text, its two implementations and the external APIs disagree in six places (D-004, D-006,
   D-007, D-009, D-012, D-013). Four of those changed spec behavior. None is in the math.
+- **r01.** A TypeScript build passed every case on the first try. The only finding was a
+  documentation error I had introduced: a summary example typed rather than computed
+  (`Tw=25.00` where the formula gives `25.05`). The builder followed the formula and logged
+  the contradiction. Examples are now checked against the oracle when the suite loads.
