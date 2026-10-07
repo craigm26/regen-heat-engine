@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/verdict-input.schema.json",
+  "title": "VerdictInput",
+  "description": "Input to the verdict-promotion state machine. Drives the go/delay/alternate decision based on prior verdict, prior flag, current flag, and whether the workplace has an alternate task that can be substituted at black.",
+  "type": "object",
+  "required": ["priorVerdict", "currentFlag", "hasAlternateAvailable"],
+  "additionalProperties": false,
+  "properties": {
+    "priorVerdict": {
+      "description": "The verdict returned on the previous run, or null on the first run.",
+      "oneOf": [
+        { "type": "string", "enum": ["go", "delay", "alternate"] },
+        { "type": "null" }
+      ]
+    },
+    "priorFlag": {
+      "description": "The environmental flag observed on the previous run. Should be null when priorVerdict is null (first-run state).",
+      "oneOf": [
+        { "type": "string", "enum": ["white", "green", "yellow", "red", "black"] },
+        { "type": "null" }
+      ]
+    },
+    "currentFlag": {
+      "type": "string",
+      "enum": ["white", "green", "yellow", "red", "black"],
+      "description": "The environmental flag observed on this run."
+    },
+    "hasAlternateAvailable": {
+      "type": "boolean",
+      "description": "Whether the workplace has an alternate task (e.g., indoor admin work) that can be substituted when conditions reach black flag."
+    }
+  }
+}

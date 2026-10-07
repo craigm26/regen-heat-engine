@@ -1,0 +1,56 @@
+{
+  "$schema": "https://heat-engine.spec/tier1/cascade-fixtures.schema.json",
+  "spec_version": "0.1.1",
+  "module": "cascade",
+  "source_citations": ["cascade-nws"],
+  "rows": [
+    {
+      "id": "nws-success",
+      "description": "NWS returns a valid observation on the first try.",
+      "input": { "lat": 37.7749, "lng": -122.4194 },
+      "ctx": {
+        "clock_iso": "2026-05-26T17:00:00.000Z",
+        "responses": [
+          {
+            "url_pattern": "api\\.weather\\.gov/.*/observations/latest",
+            "status": 200,
+            "body_json": {
+              "properties": {
+                "temperature": { "value": 22.5 },
+                "relativeHumidity": { "value": 58 },
+                "windSpeed": { "value": 3.1 }
+              }
+            }
+          }
+        ]
+      },
+      "expectedResult": {
+        "sample": { "tempC": 22.5, "rhPercent": 58, "windMps": 3.1, "source": "nws" }
+      },
+      "expectedAudit": {
+        "spec_version": "0.1.1",
+        "function": "fetchWeatherCascade",
+        "inputs": { "lat": 37.7749, "lng": -122.4194 },
+        "constants": { "nws_timeout_ms": 5000, "open_meteo_timeout_ms": 5000 },
+        "citation": "Cascade order: NWS → Open-Meteo → simulated",
+        "result_summary": "cascade → nws OK (tempC=22.5, rhPercent=58)",
+        "computed_at": "2026-05-26T17:00:00.000Z",
+        "source_chain": ["nws"],
+        "sources_tried": [
+          { "source": "nws", "status": "ok", "duration_ms": 0 }
+        ],
+        "children": [
+          {
+            "spec_version": "0.1.1",
+            "function": "fetchWeatherCascade.nws",
+            "inputs": { "lat": 37.7749, "lng": -122.4194 },
+            "constants": { "nws_timeout_ms": 5000 },
+            "citation": "api.weather.gov",
+            "result_summary": "nws OK in 0ms",
+            "computed_at": "2026-05-26T17:00:00.000Z"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/refuge-break-input.schema.json",
+  "title": "RefugeBreakInput",
+  "description": "Input to USMC 6200.1E §3.2 work/rest matrix. Returns the work/rest interval (in minutes per hour) prescribed for a worker at the current environmental flag and acclimatization state.",
+  "type": "object",
+  "required": ["flag", "acclimatized", "workMinutesRequested"],
+  "additionalProperties": false,
+  "properties": {
+    "flag": {
+      "type": "string",
+      "enum": ["white", "green", "yellow", "red", "black"],
+      "description": "Current USMC environmental flag classification."
+    },
+    "acclimatized": {
+      "type": "boolean",
+      "description": "Whether the worker has completed the 7-14 day acclimatization period."
+    },
+    "workMinutesRequested": {
+      "type": "integer",
+      "description": "Caller-requested work window in minutes. The spec's work/rest ratios are per-hour; this field is captured in the audit but does not affect ratio selection. Non-positive values are flagged in the audit as 'non_positive_work_window'."
+    }
+  }
+}

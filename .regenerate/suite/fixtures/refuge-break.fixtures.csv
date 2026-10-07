@@ -1,0 +1,11 @@
+id,source_ref,flag,acclimatized,work_minutes_requested,expected_work_minutes,expected_rest_minutes,expected_cycles_until_reassess_required,expected_cease_work,notes
+rb-001-white-acclim,usmc-6200-1e-section-3-2,white,true,60,60,0,,false,White flag with acclimatized worker — continuous work.
+rb-002-white-unacclim,usmc-6200-1e-section-3-2,white,false,60,50,10,,false,White flag with unacclimatized worker — 50/10 split.
+rb-003-green-acclim,usmc-6200-1e-section-3-2,green,true,60,50,10,,false,Green flag with acclimatized worker — 50/10 split.
+rb-004-green-unacclim,usmc-6200-1e-section-3-2,green,false,60,40,20,,false,Green flag with unacclimatized worker — 40/20 split.
+rb-005-yellow-acclim,usmc-6200-1e-section-3-2,yellow,true,60,45,15,6,false,Yellow flag with acclimatized worker — reassess after 6 cycles.
+rb-006-yellow-unacclim,usmc-6200-1e-section-3-2,yellow,false,60,30,30,4,false,Yellow flag with unacclimatized worker — reassess after 4 cycles.
+rb-007-red-acclim,usmc-6200-1e-section-3-2,red,true,60,30,30,4,false,Red flag with acclimatized worker — reassess after 4 cycles.
+rb-008-red-unacclim,usmc-6200-1e-section-3-2,red,false,60,0,0,,true,Red flag with unacclimatized worker — cease work and move to refuge.
+rb-009-black-acclim,usmc-6200-1e-section-3-2,black,true,60,10,50,1,false,Black flag with acclimatized worker — reassess every cycle.
+rb-010-black-unacclim,usmc-6200-1e-section-3-2,black,false,60,0,0,,true,Black flag with unacclimatized worker — cease work and move to refuge.

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/flag-mapping-output.schema.json",
+  "title": "FlagMappingOutput",
+  "description": "USMC 6200.1E environmental-flag classification. Both flag vocabularies are valid surface labels for the same canonical class.",
+  "type": "object",
+  "required": ["flag", "flagDartLabel"],
+  "additionalProperties": false,
+  "properties": {
+    "flag": {
+      "type": "string",
+      "enum": ["white", "green", "yellow", "red", "black"],
+      "description": "USMC color-coded flag (TS-side vocabulary)."
+    },
+    "flagDartLabel": {
+      "type": "string",
+      "enum": ["low", "moderate", "high", "extreme", "critical"],
+      "description": "Severity-named equivalent (HeatCompass Dart-side vocabulary)."
+    }
+  }
+}

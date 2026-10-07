@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/cascade-input.schema.json",
+  "title": "CascadeRequest",
+  "description": "Input to the weather-cascade fetcher. Lat/lng + optional ISO timestamp anchor for time-bounded forecasts. Sources cascaded in order: NWS → Open-Meteo → simulated.",
+  "type": "object",
+  "required": ["lat", "lng"],
+  "additionalProperties": false,
+  "properties": {
+    "lat": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90,
+      "description": "Latitude in decimal degrees."
+    },
+    "lng": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180,
+      "description": "Longitude in decimal degrees."
+    },
+    "isoTimestamp": {
+      "type": "string",
+      "description": "Optional anchor time (ISO 8601). Omitting it requests 'current' conditions from each source."
+    }
+  }
+}

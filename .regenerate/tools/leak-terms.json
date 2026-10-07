@@ -1,0 +1,7 @@
+{
+  "_comment": "Copied from kit/briefs/heat-engine.md § Leak check and audit. Identifiers always fail (case-insensitive). Symbols fail (case-sensitive) unless allowlisted.",
+  "identifiers": ["heat-engine-spec", "HeatCompass", "heatcompass", "spec-types-ts", "spec-types-dart", "github.com/HeatCompass", "heat_engine_spec"],
+  "symbols": ["buildAudit", "SpecContext", "HttpAdapter", "nativeFetchAdapter", "describeFallback", "formatNum"],
+  "allow": [],
+  "allowedDomains": ["api.weather.gov", "api.open-meteo.com"]
+}

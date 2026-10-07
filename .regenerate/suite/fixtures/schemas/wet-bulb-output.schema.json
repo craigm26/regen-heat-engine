@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/wet-bulb-output.schema.json",
+  "title": "WetBulbOutput",
+  "description": "Output of the Stull (2011) wet-bulb temperature formula.",
+  "type": "object",
+  "required": ["wetBulbC"],
+  "additionalProperties": false,
+  "properties": {
+    "wetBulbC": {
+      "type": "number",
+      "description": "Wet-bulb temperature in degrees Celsius."
+    },
+    "wetBulbF": {
+      "type": "number",
+      "description": "Same value converted to degrees Fahrenheit (convenience only; derived from wetBulbC)."
+    }
+  }
+}

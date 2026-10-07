@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/verdict-output.schema.json",
+  "title": "VerdictResult",
+  "description": "Result of the verdict-promotion state machine. The promotion_rule names the matrix rule that fired (recorded in the audit as well for traceability).",
+  "type": "object",
+  "required": ["verdict", "changedFromPrior", "promotionRule"],
+  "additionalProperties": false,
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["go", "delay", "alternate"],
+      "description": "The verdict for this run."
+    },
+    "changedFromPrior": {
+      "type": "boolean",
+      "description": "True when verdict differs from priorVerdict (or when priorVerdict was null and a verdict was assigned)."
+    },
+    "promotionRule": {
+      "type": "string",
+      "enum": [
+        "FIRST_RUN_DEFAULT",
+        "NO_CHANGE",
+        "ESCALATE_TO_DELAY_ON_RED_OR_BLACK",
+        "ALTERNATE_AVAILABLE_AT_BLACK",
+        "DEESCALATE_TO_GO"
+      ],
+      "description": "Stable identifier of the rule that produced this verdict."
+    }
+  }
+}

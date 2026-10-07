@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/flag-mapping-input.schema.json",
+  "title": "FlagMappingInput",
+  "description": "Input to USMC 6200.1E environmental-flag mapping. Fahrenheit is the source unit.",
+  "type": "object",
+  "required": ["wetBulbF"],
+  "additionalProperties": false,
+  "properties": {
+    "wetBulbF": {
+      "type": "number",
+      "description": "Wet-bulb temperature in degrees Fahrenheit."
+    }
+  }
+}

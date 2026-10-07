@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/audit.schema.json",
+  "title": "AuditRecord",
+  "description": "Versioned, citation-bearing decision record returned by every primary spec function under Approach B. Tree-structured: child audits capture nested decisions (e.g., cascade source attempts, flag conversion steps).",
+  "type": "object",
+  "required": [
+    "spec_version",
+    "function",
+    "inputs",
+    "constants",
+    "citation",
+    "result_summary",
+    "computed_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "spec_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semver of the spec that produced this audit. Matches the runtime SPEC_VERSION constant."
+    },
+    "function": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Fully-qualified spec function name (e.g., 'calculateWetBulb', 'fetchWeatherCascade.nws')."
+    },
+    "inputs": {
+      "type": "object",
+      "description": "Inputs as passed to the function (after normalization but before clamping). NaN values are wire-encoded as the string 'NaN'."
+    },
+    "constants": {
+      "type": "object",
+      "additionalProperties": { "type": "number" },
+      "description": "Numeric constants consulted by this invocation, keyed by stable identifier. Empty when the invocation short-circuited on invalid input."
+    },
+    "citation": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Authoritative source for this function's behavior (e.g., 'Stull (2011) eq. 1', 'USMC 6200.1E Table 3-1')."
+    },
+    "result_summary": {
+      "type": "string",
+      "description": "Human-readable, OSHA/Cal-OSHA-CSV-friendly one-liner describing inputs and verdict. Machine-parseable markers (e.g., 'rh_clamped', 'invalid_input:tempC') appear here when relevant."
+    },
+    "computed_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$",
+      "description": "ISO 8601 UTC timestamp with millisecond precision (e.g., '2026-05-26T17:00:00.000Z'). From the SpecContext clock (injectable for determinism)."
+    },
+    "children": {
+      "type": "array",
+      "description": "Nested audit records for sub-decisions. Used by flagFromWetBulbC (one child: the F-form invocation) and fetchWeatherCascade (one child per source attempt).",
+      "items": { "$ref": "#" }
+    },
+    "source_chain": {
+      "type": "array",
+      "description": "Cascade-only: ordered list of weather sources attempted.",
+      "items": { "enum": ["nws", "open-meteo", "simulated"] }
+    },
+    "sources_tried": {
+      "type": "array",
+      "description": "Cascade-only: per-source attempt outcomes with timing + error info.",
+      "items": { "$ref": "#/$defs/SourceAttempt" }
+    },
+    "fallback_reason": {
+      "type": "string",
+      "description": "Cascade-only: human-readable reason a later source was used instead of an earlier one."
+    },
+    "prior_flag": {
+      "description": "Verdict-only: the environmental flag observed on the previous run, or null on first run.",
+      "oneOf": [
+        { "$ref": "#/$defs/EnvFlag" },
+        { "type": "null" }
+      ]
+    },
+    "next_flag": {
+      "$ref": "#/$defs/EnvFlag",
+      "description": "Verdict-only: the environmental flag observed on this run."
+    },
+    "promotion_rule": {
+      "type": "string",
+      "description": "Verdict-only: name of the transition matrix rule applied (e.g., 'FIRST_RUN_DEFAULT', 'ESCALATE_TO_DELAY_ON_RED_OR_BLACK')."
+    }
+  },
+  "$defs": {
+    "EnvFlag": {
+      "type": "string",
+      "enum": ["white", "green", "yellow", "red", "black"],
+      "description": "USMC 6200.1E flag color (matches flag-mapping-output.schema.json#/properties/flag)."
+    },
+    "SourceAttempt": {
+      "type": "object",
+      "required": ["source", "status", "duration_ms"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": ["nws", "open-meteo", "simulated"],
+          "description": "Which weather source was attempted."
+        },
+        "status": {
+          "enum": ["ok", "error", "timeout"],
+          "description": "Outcome of the attempt."
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Wall-clock time for the attempt in milliseconds (0 in fixture replay)."
+        },
+        "error": {
+          "type": "string",
+          "description": "Error code or human-readable failure reason when status != 'ok'."
+        }
+      }
+    }
+  }
+}

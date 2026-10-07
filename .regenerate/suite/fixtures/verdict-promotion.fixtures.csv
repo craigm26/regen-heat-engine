@@ -1,0 +1,9 @@
+id,source_ref,prior_verdict,prior_flag,current_flag,has_alternate_available,expected_verdict,expected_changed_from_prior,expected_promotion_rule,notes
+vp-001-first-run-white,heat-engine-spec-design-doc-2-5,,,white,false,go,false,FIRST_RUN_DEFAULT,First run with white flag — default to go.
+vp-002-first-run-black,heat-engine-spec-design-doc-2-5,,,black,false,delay,false,FIRST_RUN_DEFAULT,First run with black flag — default to delay (no alternate).
+vp-003-no-change-green,heat-engine-spec-design-doc-2-5,go,green,green,false,go,false,NO_CHANGE,Prior go/green and current green — no transition.
+vp-004-escalate-green-to-red,heat-engine-spec-design-doc-2-5,go,green,red,false,delay,true,ESCALATE_TO_DELAY_ON_RED_OR_BLACK,Green to red without alternate — escalate to delay.
+vp-005-alternate-at-black,heat-engine-spec-design-doc-2-5,go,yellow,black,true,alternate,true,ALTERNATE_AVAILABLE_AT_BLACK,Yellow to black with alternate task available — switch to alternate.
+vp-006-deescalate-red-to-green,heat-engine-spec-design-doc-2-5,delay,red,green,false,go,true,DEESCALATE_TO_GO,Red de-escalating to green — return to go.
+vp-007-alternate-clears-at-white,heat-engine-spec-design-doc-2-5,alternate,black,white,false,go,true,DEESCALATE_TO_GO,Alternate state cleared when flag drops to white.
+vp-008-hold-delay-at-red,heat-engine-spec-design-doc-2-5,delay,red,red,false,delay,false,NO_CHANGE,Already delayed at red with no flag change — hold delay.

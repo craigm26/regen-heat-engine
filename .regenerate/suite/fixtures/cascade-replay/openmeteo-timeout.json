@@ -1,0 +1,76 @@
+{
+  "$schema": "https://heat-engine.spec/tier1/cascade-fixtures.schema.json",
+  "spec_version": "0.1.1",
+  "module": "cascade",
+  "source_citations": ["cascade-nws", "cascade-open-meteo", "cascade-simulated"],
+  "rows": [
+    {
+      "id": "openmeteo-timeout",
+      "description": "NWS missing fields then Open-Meteo times out — cascade falls to simulated.",
+      "input": { "lat": 37.7749, "lng": -122.4194 },
+      "ctx": {
+        "clock_iso": "2026-05-26T17:00:00.000Z",
+        "responses": [
+          {
+            "url_pattern": "api\\.weather\\.gov/.*/observations/latest",
+            "status": 200,
+            "body_json": {
+              "properties": {
+                "temperature": { "value": null },
+                "relativeHumidity": { "value": 50 }
+              }
+            }
+          },
+          {
+            "url_pattern": "api\\.open-meteo\\.com/.*",
+            "status": 200,
+            "simulate": "timeout"
+          }
+        ]
+      },
+      "expectedResult": {
+        "sample": { "tempC": 20, "rhPercent": 50, "source": "simulated" }
+      },
+      "expectedAudit": {
+        "spec_version": "0.1.1",
+        "function": "fetchWeatherCascade",
+        "inputs": { "lat": 37.7749, "lng": -122.4194 },
+        "constants": {
+          "nws_timeout_ms": 5000,
+          "open_meteo_timeout_ms": 5000,
+          "simulated_temp_c": 20,
+          "simulated_rh_percent": 50
+        },
+        "citation": "Cascade order: NWS → Open-Meteo → simulated",
+        "result_summary": "cascade → simulated (all_live_sources_failed)",
+        "computed_at": "2026-05-26T17:00:00.000Z",
+        "fallback_reason": "all_live_sources_failed",
+        "source_chain": ["nws", "open-meteo", "simulated"],
+        "sources_tried": [
+          { "source": "nws", "status": "error", "duration_ms": 0, "error": "missing_field:temperature" },
+          { "source": "open-meteo", "status": "timeout", "duration_ms": 5000, "error": "timeout" }
+        ],
+        "children": [
+          {
+            "spec_version": "0.1.1",
+            "function": "fetchWeatherCascade.nws",
+            "inputs": { "lat": 37.7749, "lng": -122.4194 },
+            "constants": { "nws_timeout_ms": 5000 },
+            "citation": "api.weather.gov",
+            "result_summary": "nws missing_field:temperature",
+            "computed_at": "2026-05-26T17:00:00.000Z"
+          },
+          {
+            "spec_version": "0.1.1",
+            "function": "fetchWeatherCascade.open-meteo",
+            "inputs": { "lat": 37.7749, "lng": -122.4194 },
+            "constants": { "open_meteo_timeout_ms": 5000 },
+            "citation": "api.open-meteo.com",
+            "result_summary": "open-meteo timeout",
+            "computed_at": "2026-05-26T17:00:00.000Z"
+          }
+        ]
+      }
+    }
+  ]
+}

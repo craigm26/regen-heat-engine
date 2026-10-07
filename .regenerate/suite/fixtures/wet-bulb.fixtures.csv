@@ -1,0 +1,39 @@
+id,source_ref,temp_c,rh_percent,expected_wet_bulb_c,expected_wet_bulb_f,tolerance_c,notes
+wb-001-stull-table-T20-RH50,stull-2011,20.00,50.00,13.699342,56.658816,0.000010,Typical mid-range case from paper validation.
+wb-002-stull-table-T20-RH80,stull-2011,20.00,80.00,17.529271,63.552687,0.000010,Humid mid-range case from paper validation.
+wb-003-stull-table-T30-RH50,stull-2011,30.00,50.00,22.296834,72.134301,0.000010,Warm mid-RH from paper validation.
+wb-004-stull-table-T30-RH80,stull-2011,30.00,80.00,27.129692,80.833445,0.000010,Warm humid from paper validation.
+wb-005-stull-table-T40-RH50,stull-2011,40.00,50.00,30.893929,87.609073,0.000010,Hot mid-RH from paper validation.
+wb-006-stull-table-T40-RH20,stull-2011,40.00,20.00,22.703918,72.867053,0.000010,Hot arid from paper validation.
+wb-007-stull-table-T10-RH50,stull-2011,10.00,50.00,5.101255,41.182259,0.000010,Cool mid-RH from paper validation.
+wb-008-stull-table-T10-RH80,stull-2011,10.00,80.00,7.928648,46.271566,0.000010,Cool humid from paper validation.
+wb-009-stull-table-T0-RH50,stull-2011,0.00,50.00,-3.497784,25.703989,0.000010,Freezing mid-RH (edge of comfort domain).
+wb-010-stull-table-T0-RH95,stull-2011,0.00,95.00,-0.537930,31.031725,0.000010,Freezing fog conditions.
+wb-011-stull-table-T-10-RH80,stull-2011,-10.00,80.00,-11.273550,11.707609,0.000010,"Cold humid, near lower validity bound."
+wb-012-stull-table-T45-RH30,stull-2011,45.00,30.00,29.694630,85.450334,0.000010,"Extreme heat arid, near upper validity bound."
+wb-013-boundary-just-under-white-green,stull-2011-cross-check,35.05,50.00,26.638408,79.949134,0.000010,Dry-bulb 35.05 °C at RH=50% → wet-bulb ~79.95 °F (just under white/green).
+wb-014-boundary-just-at-white-green,stull-2011-cross-check,35.10,50.00,26.681393,80.026508,0.000010,Dry-bulb 35.10 °C at RH=50% → wet-bulb ~80.03 °F (just over white/green).
+wb-015-boundary-just-under-green-yellow,stull-2011-cross-check,38.28,50.00,29.415251,84.947452,0.000010,Dry-bulb 38.28 °C at RH=50% → wet-bulb ~84.95 °F (just under green/yellow).
+wb-016-boundary-just-at-green-yellow,stull-2011-cross-check,38.34,50.00,29.466833,85.040300,0.000010,Dry-bulb 38.34 °C at RH=50% → wet-bulb ~85.04 °F (just over green/yellow).
+wb-017-boundary-just-under-yellow-red,stull-2011-cross-check,40.22,50.00,31.083062,87.949511,0.000010,Dry-bulb 40.22 °C at RH=50% → wet-bulb ~87.95 °F (just under yellow/red).
+wb-018-boundary-just-at-yellow-red,stull-2011-cross-check,40.28,50.00,31.134643,88.042358,0.000010,Dry-bulb 40.28 °C at RH=50% → wet-bulb ~88.04 °F (just over yellow/red).
+wb-019-boundary-just-under-red-black,stull-2011-cross-check,41.52,50.00,32.200661,89.961190,0.000010,Dry-bulb 41.52 °C at RH=50% → wet-bulb ~89.96 °F (just under red/black).
+wb-020-boundary-just-at-red-black,stull-2011-cross-check,41.58,50.00,32.252243,90.054037,0.000010,Dry-bulb 41.58 °C at RH=50% → wet-bulb ~90.05 °F (just over red/black).
+wb-021-edge-low-rh-5,stull-2011-cross-check,30.00,5.00,10.772176,51.389916,0.000010,Lowest allowed RH (5%); evaporation maximum.
+wb-022-edge-low-rh-10,stull-2011-cross-check,35.00,10.00,15.621860,60.119348,0.000010,Arid hot case.
+wb-023-edge-high-rh-99,stull-2011-cross-check,25.00,99.00,24.910861,76.839550,0.000010,Highest allowed RH; wet-bulb ≈ dry-bulb.
+wb-024-edge-high-rh-95,stull-2011-cross-check,35.00,95.00,34.334772,93.802590,0.000010,Tropical near-saturation.
+wb-025-edge-low-temp-neg10,stull-2011-cross-check,-10.00,50.00,-12.098488,10.222722,0.000010,Cold mid-RH.
+wb-026-edge-low-temp-neg20,stull-2011-cross-check,-20.00,60.00,-20.940222,-5.692400,0.000010,Lowest allowed T (validity boundary).
+wb-027-edge-high-temp-50,stull-2011-cross-check,50.00,20.00,29.506402,85.111523,0.000010,Highest allowed T (validity boundary).
+wb-028-edge-high-temp-48,stull-2011-cross-check,48.00,60.00,40.169239,104.304630,0.000010,Near upper-T high-RH (dangerous heat).
+wb-029-typical-temperate-spring,stull-2011-cross-check,15.00,60.00,10.516740,50.930131,0.000010,"Spring afternoon, mid-latitudes."
+wb-030-typical-temperate-summer,stull-2011-cross-check,25.00,60.00,19.502679,67.104823,0.000010,"Summer afternoon, mid-latitudes."
+wb-031-typical-tropical,stull-2011-cross-check,30.00,85.00,27.879073,82.182331,0.000010,Tropical wet season.
+wb-032-typical-arid-summer,stull-2011-cross-check,38.00,15.00,19.502155,67.103879,0.000010,Arid summer afternoon (Phoenix-like).
+wb-033-typical-mediterranean,stull-2011-cross-check,28.00,45.00,19.720784,67.497411,0.000010,Mediterranean afternoon.
+wb-034-typical-coastal-humid,stull-2011-cross-check,26.00,75.00,22.584231,72.651616,0.000010,Coastal humid afternoon.
+wb-035-typical-marine-cool,stull-2011-cross-check,12.00,75.00,9.335939,48.804690,0.000010,Marine cool foggy day.
+wb-036-typical-continental-cold,stull-2011-cross-check,-5.00,50.00,-7.797858,17.963855,0.000010,Cold dry continental winter.
+wb-037-typical-monsoon,stull-2011-cross-check,32.00,90.00,30.589563,87.061213,0.000010,Monsoon humid hot.
+wb-038-typical-desert-night,stull-2011-cross-check,22.00,25.00,11.433464,52.580234,0.000010,Desert night cooling.

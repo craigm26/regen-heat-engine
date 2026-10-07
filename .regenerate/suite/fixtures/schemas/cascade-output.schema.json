@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/cascade-output.schema.json",
+  "title": "CascadeResult",
+  "description": "Result of the weather-cascade fetcher. Always returns a sample — the source field discloses which tier of the cascade produced it (live NWS, live Open-Meteo, or the deterministic simulated fallback). Audit envelope's source_chain + sources_tried + fallback_reason carry the full chain provenance.",
+  "type": "object",
+  "required": ["sample"],
+  "additionalProperties": false,
+  "properties": {
+    "sample": {
+      "type": "object",
+      "required": ["tempC", "rhPercent", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "tempC": {
+          "type": "number",
+          "description": "Dry-bulb air temperature in degrees Celsius."
+        },
+        "rhPercent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Relative humidity 0-100."
+        },
+        "windMps": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Wind speed in meters per second. Optional — not all sources expose it."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["nws", "open-meteo", "simulated"],
+          "description": "Which source produced this sample. 'simulated' indicates both live sources failed and the deterministic fallback fired."
+        }
+      }
+    }
+  }
+}

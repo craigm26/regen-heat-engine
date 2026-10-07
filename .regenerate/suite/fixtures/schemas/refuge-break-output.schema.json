@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/refuge-break-output.schema.json",
+  "title": "WorkRestInterval",
+  "description": "Prescribed work/rest interval per hour per USMC 6200.1E §3.2. workMinutes + restMinutes typically sum to 60 except in the cease_work case (both zero).",
+  "type": "object",
+  "required": ["workMinutes", "restMinutes", "cyclesUntilReassessRequired", "ceaseWork"],
+  "additionalProperties": false,
+  "properties": {
+    "workMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 60,
+      "description": "Minutes of work per hour. Zero when ceaseWork=true."
+    },
+    "restMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 60,
+      "description": "Minutes of rest per hour. Zero when ceaseWork=true."
+    },
+    "cyclesUntilReassessRequired": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "If non-null, the worker must be reassessed for heat-stress symptoms after this many work/rest cycles. Null for white/green where no scheduled reassessment is required."
+    },
+    "ceaseWork": {
+      "type": "boolean",
+      "description": "True when the matrix prescribes no work (red/unacclim, black/unacclim). Workers must move to refuge."
+    }
+  }
+}

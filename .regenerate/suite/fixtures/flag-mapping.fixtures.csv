@@ -1,0 +1,21 @@
+id,source_ref,wet_bulb_f,expected_flag,expected_flag_dart_label,notes
+fm-001-far-below-white,usmc-6200-1e,40.0,white,low,Cold morning — clearly below all boundaries.
+fm-002-far-below-white,usmc-6200-1e,60.0,white,low,Cool spring afternoon.
+fm-003-just-below-white-green,usmc-6200-1e,79.99,white,low,Wet-bulb 0.01 °F below white/green boundary.
+fm-004-at-white-green,usmc-6200-1e,80.00,green,moderate,Wet-bulb exactly at white/green boundary (≥ 80 is green).
+fm-005-just-above-white-green,usmc-6200-1e,80.01,green,moderate,Wet-bulb 0.01 °F above white/green boundary.
+fm-006-green-interior,usmc-6200-1e,82.50,green,moderate,Mid-green range.
+fm-007-just-below-green-yellow,usmc-6200-1e,84.99,green,moderate,Wet-bulb 0.01 °F below green/yellow boundary.
+fm-008-at-green-yellow,usmc-6200-1e,85.00,yellow,high,Wet-bulb exactly at green/yellow boundary.
+fm-009-just-above-green-yellow,usmc-6200-1e,85.01,yellow,high,Wet-bulb 0.01 °F above green/yellow boundary.
+fm-010-yellow-interior,usmc-6200-1e,86.50,yellow,high,Mid-yellow range.
+fm-011-just-below-yellow-red,usmc-6200-1e,87.99,yellow,high,Wet-bulb 0.01 °F below yellow/red boundary.
+fm-012-at-yellow-red,usmc-6200-1e,88.00,red,extreme,Wet-bulb exactly at yellow/red boundary.
+fm-013-just-above-yellow-red,usmc-6200-1e,88.01,red,extreme,Wet-bulb 0.01 °F above yellow/red boundary.
+fm-014-red-interior,usmc-6200-1e,89.00,red,extreme,Mid-red range.
+fm-015-just-below-red-black,usmc-6200-1e,89.99,red,extreme,Wet-bulb 0.01 °F below red/black boundary.
+fm-016-at-red-black,usmc-6200-1e,90.00,black,critical,Wet-bulb exactly at red/black boundary (≥ 90 is black).
+fm-017-just-above-red-black,usmc-6200-1e,90.01,black,critical,Wet-bulb 0.01 °F above red/black boundary.
+fm-018-far-into-black,usmc-6200-1e,95.00,black,critical,Extreme heat — well into black flag territory.
+fm-019-extreme-black,usmc-6200-1e,100.00,black,critical,Survival-threatening wet-bulb (rare but recorded).
+fm-020-very-cold,usmc-6200-1e,-10.00,white,low,Sub-freezing wet-bulb (no heat stress).

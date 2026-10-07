@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://heat-engine.spec/tier1/wet-bulb-input.schema.json",
+  "title": "WetBulbInput",
+  "description": "Input to the Stull (2011) wet-bulb temperature formula.",
+  "type": "object",
+  "required": ["tempC", "rhPercent"],
+  "additionalProperties": false,
+  "properties": {
+    "tempC": {
+      "type": "number",
+      "minimum": -20,
+      "maximum": 50,
+      "description": "Dry-bulb air temperature in degrees Celsius. Stull (2011) is validated for [-20, 50]."
+    },
+    "rhPercent": {
+      "type": "number",
+      "minimum": 5,
+      "maximum": 99,
+      "description": "Relative humidity 0-100. Stull (2011) is validated for [5, 99]; implementations MUST clamp inputs to this range."
+    }
+  }
+}

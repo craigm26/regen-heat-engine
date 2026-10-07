@@ -1,0 +1,15 @@
+{
+  "_comment": "Deliberate departures from imported fixture expectations. Each cites its DECISIONS entry. Fixture files themselves are unchanged.",
+  "cascade": {
+    "nws-success": {
+      "decision": "D-006",
+      "reqs": ["REQ-CA-005"],
+      "expectedResult": { "sample": { "tempC": 22.5, "rhPercent": 58, "windMps": 0.8611111111111112, "source": "nws" } }
+    },
+    "nws-missing-falls-to-openmeteo": {
+      "decision": "D-006",
+      "reqs": ["REQ-CA-005"],
+      "expectedResult": { "sample": { "tempC": 21.8, "rhPercent": 60, "windMps": 0.6666666666666666, "source": "open-meteo" } }
+    }
+  }
+}
