@@ -8,6 +8,9 @@ How every version of this program was made. Machine-readable record: `ledger.jso
 |---|---|---|---|---|---|---|---|---|---|
 | r00 | reference | spec-v1.0.0 | — | earlier TS implementation via adapter | finished | 294/336 (n/a 26) | — | — | all 42 failures explained (below) |
 | r01 | blind | spec-v1.0.0 | claude-sonnet-5-5 | ts | finished | 362/362 | 22/22 | no | C-1 clarify: a spec example was wrong; 19 turns, 3.4 min, $0.60 |
+| r00.1 | reference | spec-v1.0.1 | — | earlier TS implementation | finished | 294/336 (n/a 26) | — | — | same 42 explained failures |
+| r02 | blind | spec-v1.0.1 | claude-sonnet-5-5 | ts | finished | 362/362 | 14/14 | no | C-1 clarify: REQ-IF-007 check order contradicted itself; 16 turns, 2.8 min, $0.49 |
+| r00.2 | reference | spec-v1.0.2 | — | earlier TS implementation | finished | 294/336 (n/a 28) | — | — | same 42 explained failures |
 
 ## r00: the suite against the earlier implementation
 
@@ -46,3 +49,7 @@ Suite bugs found while building r00 (class (a), fixed before the run was recorde
   documentation error I had introduced: a summary example typed rather than computed
   (`Tw=25.00` where the formula gives `25.05`). The builder followed the formula and logged
   the contradiction. Examples are now checked against the oracle when the suite loads.
+- **r02.** A second TypeScript build, laid out differently, also passed every case. Its one
+  real finding was again in the prose: a sentence about error-check order that contradicted
+  itself. Rescored against spec-v1.0.2's suite (two new error cases), r01 and r02 both pass
+  364/364.
