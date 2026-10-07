@@ -58,7 +58,12 @@ const CODE_HOSTS = ['github.com', 'raw.githubusercontent.com', 'registry.npmjs.o
 
 function bashTokens(cmd) {
   // Candidate path tokens: anything with a slash/backslash or starting with ~, ., $HOME, %USERPROFILE%, or a drive letter.
-  return cmd.split(/[\s;&|<>()'"=]+/).filter((t) => t && !/^[\\/]+$/.test(t) && (/[\\/]/.test(t) || /^(~|\$HOME|%USERPROFILE%|[a-zA-Z]:[\\/])/i.test(t) || t === '..'));
+  // A token counts as a path only if it starts like one (~, $HOME, %USERPROFILE%, a drive) or
+  // has a real path segment next to a separator ("../x", "/etc", "a/b") or is "..". Fragments
+  // of sed scripts and regexes such as "\*", "/%" or "/^/," are not paths.
+  return cmd.split(/[\s;&|<>()'"=]+/).filter((t) => t && (
+    /^(~|\$HOME|%USERPROFILE%|[a-zA-Z]:[\\/])/i.test(t) || t === '..' ||
+    /(^|[\\/])(\.\.|[\w.-]*\w[\w.-]*)[\\/]|[\\/][\w.-]*\w[\w.-]*$/.test(t)));
 }
 
 for (const l of lines) {
