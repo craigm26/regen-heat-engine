@@ -38,8 +38,9 @@ the earlier implementation is not a working endpoint (see DECISIONS D-008).
 | TypeScript (Node 22.18+, no deps) | `impl/ts/` | `spec-v1.0.2` | r03 | 364/364 | 332 |
 | Python (3.11+, stdlib only) | `impl/py/` | `spec-v1.0.2` | r04 | 364/364 | 446 |
 
-`main` carries no newer draft spec. Linux: unverified until the first CI run (all runs so
-far were on Windows).
+`main` carries no newer draft spec. Both implementations pass on Windows (where they were
+built) and on Linux (CI on `ubuntu-latest`, Node 22 and Python 3.11: 364/364 each, run
+37678655768).
 
 ## How it was made, and how to regenerate it
 

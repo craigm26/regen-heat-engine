@@ -157,13 +157,13 @@ runs were left unused.
 | P5 | Promoted builders saw only the three files, passed the leak check, clean audit | `launch-blind.sh`, leak check before each launch, `meta/audit.json` (0 violations) | yes |
 | P6 | Promoted implementations come from clean runs on their tag | `runs/r03.md`, `runs/r04.md`; ledger `clean: true` | yes |
 | P7 | Every run is in the ledger, failures included | `ledger.jsonl`: r00–r00.2, r01–r04, two rescores, two promotions | yes |
-| P8 | Every number here traces to the ledger or a run file | This document | yes, Linux excepted |
+| P8 | Every number here traces to the ledger or a run file | This document | yes |
 
-Linux has not been checked yet: every run was on Windows, and CI on `ubuntu-latest` has not run.
+All builds and scoring ran on Windows. The first CI run on `ubuntu-latest` (Node 22, Python
+3.11) passed both implementations' own tests and the suite at `spec-v1.0.2`, 364/364 each.
 
 ## 10. What's next
 
-- Run CI on Linux.
 - Offer the earlier project the two findings that matter outside this repo: the NWS endpoint
   and the wind units. Drafts only; nothing has been sent.
 - [Craig: whether to try a third language, or a weaker model, against the same tag.]

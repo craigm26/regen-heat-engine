@@ -14,6 +14,10 @@ How every version of this program was made. Machine-readable record: `ledger.jso
 | r03 | blind | spec-v1.0.2 | claude-sonnet-5-5 | ts | finished | 364/364 | 12/12 | **yes** | first clean run; 18 turns, 3.1 min, $0.44 |
 | r04 | blind | spec-v1.0.2 | claude-sonnet-5-5 | py | finished | 364/364 | 27/27 | **yes** | second language clean; 13 turns, 2.5 min, $0.43 |
 
+Published 2026-10-07 after CI run 37678655768 on `main` (`c53a191`, ubuntu-latest, Node 22,
+Python 3.11) passed: purity ok for both trees; auditor self-test 15/15; ts own tests 12/12 and
+suite 364/364; py own tests 27/27 and suite 364/364.
+
 ## r00: the suite against the earlier implementation
 
 Ran 2026-10-07 on Windows, Node v22.20.0, against the earlier TypeScript implementation at
