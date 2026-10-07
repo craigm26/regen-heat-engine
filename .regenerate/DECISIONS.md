@@ -232,3 +232,25 @@ this spec was extracted from. They were required to produce byte-identical audit
 - Decision: REQ-CJ-003 pins UTF-16 code unit order.
 - Why: One rule, matching the earlier output.
 - Alternatives: Code-point order.
+
+## D-022: Spec examples are computed, and the suite checks them
+- Source: r01
+- Context: REQ-WB-003 gave `tempC 25, rhPercent 120` ⟶ `Tw=25.00°C`. The formula in
+  REQ-WB-001 gives `25.05`. The example had been typed by hand. The r01 builder followed the
+  formula and recorded the contradiction (C-1).
+- Decision: The example now reads `25.05`; the elided third example is filled in (`25.97`).
+  The suite now refuses to load if any wet-bulb or flag example in SPEC.md disagrees with its
+  own expectations.
+- Why: Where an example and a rule disagree, a builder has to guess which one is the spec.
+- Alternatives: Remove computed examples (they are the clearest way to show the formats).
+
+## D-023: Malformed replay entries, streaming and odd request bytes are open
+- Source: r01
+- Context: r01 had to choose behavior for uncompilable `url_pattern`s, replay entries without
+  a status, `body_json: null`, non-finite coordinates, whether to answer line by line or at end
+  of input, invalid UTF-8 in requests, and duplicate member names (C-2, C-3, C-7, C-8, C-10).
+- Decision: OPEN-CA-004, OPEN-IF-005, and OPEN-CA-002 widened to non-finite coordinates.
+  Nothing should depend on these.
+- Why: Test data and well-formed callers never produce them; pinning them would add rules
+  without adding safety.
+- Alternatives: Pin each one (longer spec, no consumer).

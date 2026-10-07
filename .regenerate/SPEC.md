@@ -1,7 +1,7 @@
 # heat-engine: specification
 
 - Program: `heat-engine`
-- Document version: 1.0.0
+- Document version: 1.0.1
 - Date: 2026-10-07
 - Contract version emitted in audits (`spec_version`): `0.2.0` (see D-003)
 
@@ -312,8 +312,8 @@ wetBulbF = (wetBulbC * 9) / 5 + 32
 
 Examples:
 - `tempC 20, rhPercent 50` ⟶ `T=20.0°C RH=50% → Tw=13.70°C`
-- `tempC 25, rhPercent 120` ⟶ `T=25.0°C RH=120→100% (rh_clamped) → Tw=25.00°C`
-- `tempC 60, rhPercent 2.5` ⟶ `T=60.0°C RH=2.5→5% (rh_clamped,out_of_validity_range) → Tw=…`
+- `tempC 25, rhPercent 120` ⟶ `T=25.0°C RH=120→100% (rh_clamped) → Tw=25.05°C`
+- `tempC 60, rhPercent 2.5` ⟶ `T=60.0°C RH=2.5→5% (rh_clamped,out_of_validity_range) → Tw=25.97°C`
 
 **REQ-WB-004.** If `tempC` or `rhPercent` is not finite, the result MUST be `null` and the audit
 MUST have `function` and `citation` as above, `inputs` with both values (REQ-AU-002),
@@ -604,6 +604,7 @@ them.
 - **OPEN-IF-001.** What the driver writes to standard error.
 - **OPEN-IF-002.** Any human-readable error text; it never appears in a response.
 - **OPEN-IF-003.** Behavior for a `clock` string that is not in the exact 24-character form.
+- **OPEN-IF-005.** Whether responses are written as each request line arrives or only after end of input (only order and completeness are pinned); handling of request bytes that are not valid UTF-8; handling of duplicate member names in a request object.
 - **OPEN-IF-004.** Library structure: module layout, exported names, internal types, and
   whether a real HTTP client exists. Live network fetching is outside this spec.
 - **OPEN-WB-001.** Results when the computation overflows or loses all precision (inputs of
@@ -612,5 +613,6 @@ them.
 - **OPEN-CJ-001.** Canonical text for JSON numbers outside the binary64 range (e.g. `1e400`).
 - **OPEN-CA-001.** Cascade behavior when a field that should be numeric holds a non-numeric,
   non-null value (e.g. a string temperature).
-- **OPEN-CA-002.** Validation of `lat`/`lng` ranges.
+- **OPEN-CA-002.** Validation of `lat`/`lng`: out-of-range values and non-finite values (`"NaN"`, `"Infinity"`).
+- **OPEN-CA-004.** Malformed replay entries: a `url_pattern` that is not a valid regular expression, a matching entry without a numeric `status`, and a `body_json` member whose value is `null`.
 - **OPEN-CA-003.** The exact request headers or method details beyond "GET this URL".

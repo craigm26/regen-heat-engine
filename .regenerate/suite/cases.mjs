@@ -46,7 +46,28 @@ const req = (id, op, input, extra = {}) => ({ id, op, input, clock: CLOCK, ...ex
 // Wire encoding of a possibly non-finite number (REQ-IF-006).
 const w = (x) => (Number.isNaN(x) ? 'NaN' : x === Infinity ? 'Infinity' : x === -Infinity ? '-Infinity' : x);
 
+// SPEC.md's computed examples must agree with the oracle (D-022). Throws if not.
+export function checkSpecExamples() {
+  const spec = readFileSync(join(import.meta.dirname, '..', 'SPEC.md'), 'utf8');
+  const bad = [];
+  let n = 0;
+  for (const m of spec.matchAll(/^- `tempC (\S+), rhPercent (\S+)` ⟶ `([^`]+)`/gm)) {
+    n++;
+    const got = O.wetBulb(Number(m[1]), Number(m[2]), CLOCK).audit.result_summary;
+    if (got !== m[3]) bad.push(`wetBulb ${m[1]},${m[2]}: spec says ${m[3]}, oracle ${got}`);
+  }
+  for (const m of spec.matchAll(/`(-?[\d.]+)` ⟶ `(wetBulb[FC]=[^`]+)`/g)) {
+    n++;
+    const e = m[2].startsWith('wetBulbF') ? O.flagF(Number(m[1]), CLOCK) : O.flagC(Number(m[1]), CLOCK);
+    if (e.audit.result_summary !== m[2]) bad.push(`flag ${m[1]}: spec says ${m[2]}, oracle ${e.audit.result_summary}`);
+  }
+  if (n < 6) bad.push(`only ${n} examples found; the example patterns no longer match SPEC.md`);
+  if (bad.length) throw new Error('SPEC.md examples disagree with the oracle:\n  ' + bad.join('\n  '));
+  return n;
+}
+
 export function buildCases() {
+  checkSpecExamples();
   const cases = [];
   // An op case: one request, one result check, one audit check.
   const op = (id, batch, line, expected, reqsResult, reqsAudit, opts = {}) => {
