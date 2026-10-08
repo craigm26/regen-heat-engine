@@ -6,5 +6,6 @@
 - CI: run 37678655768 on main (c53a191) passed on ubuntu-latest (Node 22, Python 3.11): 364/364 each
 - Blind runs used: 4 of 6
 - Running processes: none
-- Open follow-ups (Craig): edit WRITEUP.md placeholders and kit/posts/heat-engine.md; decide on
-  kit/posts/heat-engine-upstream-note.md (not sent).
+- Open follow-ups (Craig): kit/posts/heat-engine.md; decide on kit/posts/heat-engine-upstream-note.md
+  (not sent). WRITEUP.md's notes to the author were taken out on 2026-10-08 so the public text
+  reads complete; nothing was added in their place.

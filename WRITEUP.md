@@ -8,7 +8,7 @@ Python) that were written by agents who were shown only the specification. The c
 `impl/` is output. The files under `.regenerate/` are the thing I maintain.
 
 The layout follows Carson Farmer's `.regenerate/` convention
-([iroh-acp-go](https://github.com/carsonfarmer/iroh-acp-go); [Craig: link to Carson's post]).
+([iroh-acp-go](https://github.com/carsonfarmer/iroh-acp-go)).
 The idea that a regenerable system needs four things (a spec, an evaluation that can judge any
 version, a limit on what the builder sees, and a record of how each version was made) is from
 Chad Fowler's [writing on regenerative software](https://chadfowler.com/regenerative-software/).
@@ -24,8 +24,7 @@ Most of what makes this program correct comes from outside its code: a 2011 pape
 wet-bulb formula), a Marine Corps order (the heat flag bands and the work/rest matrix), and two
 public weather APIs. The earlier implementation, HeatCompass/heat-engine-spec, already had a
 spec folder, CSV fixtures, and two implementations held to byte-equal audit output. That made it
-the cheapest place to run the whole loop end to end. [Craig: why this one matters to you, if it
-does beyond being cheap.]
+the cheapest place to run the whole loop end to end.
 
 ## 3. What I wrote down
 
@@ -121,8 +120,7 @@ but formatting, units, clocks and the fallback chain. Extraction bore that out: 
 failure and every decision that changed behavior was about units, serialization, or how the
 cascade fails. The rebuilds did not stumble on any of it, including the Python run, which
 reimplemented ECMAScript number text and `toFixed` tie rounding with exact arithmetic because
-SPEC.md spells both out as algorithms with examples. [Craig: whether that matches what you
-expected going in.]
+SPEC.md spells both out as algorithms with examples.
 
 ## 7. How much to write down
 
@@ -143,7 +141,7 @@ pinned list stayed at 42.
 Four blind runs, all `claude-sonnet-5-5`: 66 turns, 11.8 minutes of builder time and $1.96 in
 total, as reported by each transcript's final line. That excludes the orchestrating session
 that extracted the spec, built the suite and scored the runs, which took far longer and is not
-in the ledger. [Craig: the orchestrator's cost, if you want it here.] Two of the six allowed
+in the ledger. Two of the six allowed
 runs were left unused.
 
 ## 9. The checklist
@@ -166,4 +164,4 @@ All builds and scoring ran on Windows. The first CI run on `ubuntu-latest` (Node
 
 - Offer the earlier project the two findings that matter outside this repo: the NWS endpoint
   and the wind units. Drafts only; nothing has been sent.
-- [Craig: whether to try a third language, or a weaker model, against the same tag.]
+- Run a third language, or a weaker model, against the same tag.
