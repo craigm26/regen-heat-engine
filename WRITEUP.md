@@ -154,14 +154,20 @@ runs were left unused.
 | P4 | The suite ran against the reference first; every failure explained | Ledger `r00`, `r00.1`, `r00.2`; PROVENANCE | yes |
 | P5 | Promoted builders saw only the three files, passed the leak check, clean audit | `launch-blind.sh`, leak check before each launch, `meta/audit.json` (0 violations) | yes |
 | P6 | Promoted implementations come from clean runs on their tag | `runs/r03.md`, `runs/r04.md`; ledger `clean: true` | yes |
-| P7 | Every run is in the ledger, failures included | `ledger.jsonl`: r00–r00.2, r01–r04, two rescores, two promotions | yes |
+| P7 | Every run is in the ledger, failures included | `ledger.jsonl`: r00–r00.2, r01–r04, two rescores, two promotions, and the upstream check `upstream.1` | yes |
 | P8 | Every number here traces to the ledger or a run file | This document | yes |
 
-All builds and scoring ran on Windows. The first CI run on `ubuntu-latest` (Node 22, Python
-3.11) passed both implementations' own tests and the suite at `spec-v1.0.2`, 364/364 each.
+All builds and scoring ran on Windows; the upstream check in section 10 ran later, on Linux.
+The first CI run on `ubuntu-latest` (Node 22, Python 3.11) passed both implementations' own
+tests and the suite at `spec-v1.0.2`, 364/364 each.
 
 ## 10. What's next
 
-- Offer the earlier project the two findings that matter outside this repo: the NWS endpoint
-  and the wind units. Drafts only; nothing has been sent.
+- The two findings that matter outside this repo, the NWS endpoint and the wind units, went to
+  the earlier project with three smaller ones as
+  [HeatCompass/heat-engine-spec#6](https://github.com/HeatCompass/heat-engine-spec/pull/6). It is
+  open, not merged. With it, and an adapter copy that maps its new requests onto the replay
+  fixtures, the earlier implementation passes 305 of this suite's 336 applicable cases; every
+  remaining failure is a choice this spec made deliberately or one the PR leaves alone (ledger
+  `upstream.1`, PROVENANCE).
 - Run a third language, or a weaker model, against the same tag.

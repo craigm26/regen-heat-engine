@@ -13,6 +13,7 @@ How every version of this program was made. Machine-readable record: `ledger.jso
 | r00.2 | reference | spec-v1.0.2 | — | earlier TS implementation | finished | 294/336 (n/a 28) | — | — | same 42 explained failures |
 | r03 | blind | spec-v1.0.2 | claude-sonnet-5-5 | ts | finished | 364/364 | 12/12 | **yes** | first clean run; 18 turns, 3.1 min, $0.44 |
 | r04 | blind | spec-v1.0.2 | claude-sonnet-5-5 | py | finished | 364/364 | 27/27 | **yes** | second language clean; 13 turns, 2.5 min, $0.43 |
+| upstream.1 | upstream | spec-v1.0.2 | — | earlier TS implementation with the fixes in HeatCompass/heat-engine-spec#6, Linux | finished | 305/336 (n/a 28) | — | — | the 11 failures this spec corrects in D-006, D-007 and D-013 pass; adapter copy (below) |
 
 Published 2026-10-07 after CI run 37678655768 on `main` (`c53a191`, ubuntu-latest, Node 22,
 Python 3.11) passed: purity ok for both trees; auditor self-test 15/15; ts own tests 12/12 and
@@ -45,6 +46,29 @@ Suite bugs found while building r00 (class (a), fixed before the run was recorde
 1. The oracle self-check compared imported cascade audits after substituting the version only
    at the top level, not in `children`.
 2. REQ-IF-005 had no case (caught by the traceability check); the version cases now cite it.
+
+## upstream.1: the fixes proposed upstream
+
+On 2026-10-08 (UTC) five fixes went to the earlier project as
+[HeatCompass/heat-engine-spec#6](https://github.com/HeatCompass/heat-engine-spec/pull/6), open
+and not merged when this was written. It changes both of its implementations: NWS observations
+come from the documented requests (point, station list, latest observation), `windMps` is in
+metres per second, an Open-Meteo `null` counts as missing in TypeScript, both write `±Infinity`
+inputs as strings, and its input schema now states the RH clamp of [5, 100] that both
+implementations apply.
+
+Run through this suite on Linux (Node v22.22.0) at `baa5129`, it scores 305/336 (n/a 28),
+against 294/336 for `f621520` on the same host. The 11 cases that now pass are every failure
+in D-006 (4), D-007 (5) and D-013 (2). The 31 left are the two deliberate choices of this spec,
+D-004 (21) and D-003 (7), and D-012 (3), which the PR does not change.
+
+This suite's replay fixtures model the earlier single NWS request, kept as the replay
+identifier by D-008, and Open-Meteo answering in its default km/h. The PR makes three NWS
+requests and asks Open-Meteo for m/s, so the run used a copy of the reference adapter, not
+committed, that answers the two new NWS requests, matches the observation request under the
+earlier URL, and labels a fixture's Open-Meteo body as km/h. With the committed adapter the PR
+scores 279/336, and every extra failure is a replay miss on one of the new URLs. Ledger:
+`upstream.1`.
 
 ## What each run taught
 
